@@ -49,57 +49,57 @@ from typing import List
 # # print(emp_1.fullname())
 
 
-class Employee:
-    raise_amt = 1.04
+# class Employee:
+#     raise_amt = 1.04
 
-    def __init__(self, first, last, pay):
-        self.first = first
-        self.last = last
-        self.email = first + "." + last + "@email.com"
-        self.pay = pay
+#     def __init__(self, first, last, pay):
+#         self.first = first
+#         self.last = last
+#         self.email = first + "." + last + "@email.com"
+#         self.pay = pay
 
-    def fullname(self):
-        return "{} {}".format(self.first, self.last)
+#     def fullname(self):
+#         return "{} {}".format(self.first, self.last)
 
-    def apply_raise(self):
-        self.pay = int(self.pay * Employee.raise_amt)
-
-
-class Developer(Employee):
-    raise_amt = 1.1
-
-    def __init__(self, first, last, pay, prog_lang):
-        super().__init__(first, last, pay)
-        self.prog_lang = prog_lang
+#     def apply_raise(self):
+#         self.pay = int(self.pay * Employee.raise_amt)
 
 
-class Manager(Employee):
-    def __init__(self, first, last, pay, employees: List["Employee"] = None):
-        super().__init__(first, last, pay)
-        if employees is None:
-            self.employees = []
-        else:
-            self.employees = employees
+# class Developer(Employee):
+#     raise_amt = 1.1
 
-    def add_empl(self, empl):
-        if empl not in self.employees:
-            self.employees.append(empl)
-
-    def remove_empl(self, empl):
-        if empl in self.employees:
-            self.employees.remove(empl)
-
-    def print_employees(self):
-        for empl in self.employees:
-            print("-->", empl.fullname())
+#     def __init__(self, first, last, pay, prog_lang):
+#         super().__init__(first, last, pay)
+#         self.prog_lang = prog_lang
 
 
-dev_1 = Developer("Corey", "Schafer", 50000, "Python")
-dev_2 = Developer("Test", "Employee", 60000, "Java")
+# class Manager(Employee):
+#     def __init__(self, first, last, pay, employees: List["Employee"] = None):
+#         super().__init__(first, last, pay)
+#         if employees is None:
+#             self.employees = []
+#         else:
+#             self.employees = employees
 
-mgr_1 = Manager("Kestutis", "Algirdaitis", 100000, [dev_1])
+#     def add_empl(self, empl):
+#         if empl not in self.employees:
+#             self.employees.append(empl)
 
-print(issubclass(Manager, Employee))
+#     def remove_empl(self, empl):
+#         if empl in self.employees:
+#             self.employees.remove(empl)
+
+#     def print_employees(self):
+#         for empl in self.employees:
+#             print("-->", empl.fullname())
+
+
+# dev_1 = Developer("Corey", "Schafer", 50000, "Python")
+# dev_2 = Developer("Test", "Employee", 60000, "Java")
+
+# mgr_1 = Manager("Kestutis", "Algirdaitis", 100000, [dev_1])
+
+# print(issubclass(Manager, Employee))
 
 # print(mgr_1.email)
 # mgr_1.add_empl(dev_2)
@@ -108,3 +108,77 @@ print(issubclass(Manager, Employee))
 # # print(dev_1.pay)
 # # dev_1.apply_raise()
 # # print(dev_1.pay)
+
+
+# class Employee:
+#     raise_amt = 1.04
+
+#     def __init__(self, first, last, pay):
+#         self.first = first
+#         self.last = last
+#         self.email = first + "." + last + "@email.com"
+#         self.pay = pay
+
+#     def fullname(self):
+#         return "{} {}".format(self.first, self.last)
+
+#     def apply_raise(self):
+#         self.pay = int(self.pay * self.raise_amt)
+
+#     def __repr__(self) -> str:
+#         return f"Employee('{self.first}', '{self.last}', '{self.pay}')"
+
+#     def __str__(self) -> str:
+#         return f"{self.fullname()} - {self.email}"
+
+#     def __add__(self, other):
+#         return self.pay + other.pay
+
+#     def __len__(self):
+#         return len(self.fullname())
+
+
+# emp_1 = Employee("Corey", "Schafer", 50000)
+# emp_2 = Employee("Test", "Employee", 60000)
+
+
+# print(len(emp_1))
+# print("mindaugas".__len__())
+
+
+class Employee:
+    def __init__(self, first, last):
+        self.first = first
+        self.last = last
+
+    @property
+    def email(self):
+        return "{} {}@email.com".format(self.first, self.last)
+
+    @property
+    def fullname(self):
+        return "{} {}".format(self.first, self.last)
+
+    @fullname.setter
+    def fullname(self, name):
+        first, last = name.split(" ")
+        self.first = first
+        self.last = last
+
+    @fullname.deleter
+    def fullname(self):
+        print("Delete name")
+        self.first = None
+        self.last = None
+
+
+emp_1 = Employee("John", "Smith")
+emp_1.fullname = "Algirdas Vytautas"
+
+print(emp_1.first)
+print(emp_1.email)
+print(emp_1.fullname)
+
+del emp_1.fullname
+print(emp_1.fullname)
+print(emp_1.email)
